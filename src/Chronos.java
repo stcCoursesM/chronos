@@ -9,23 +9,33 @@ public class Chronos implements Runnable {
         Chronos.seconds = seconds;
     }
 
+    CommonSwitch cs;
+
+    Chronos(CommonSwitch cs){
+        this.cs = cs;
+    }
+
     static boolean notStopped = true;
     static int seconds;
 
     public void setSeconds() {
         long start = System.currentTimeMillis();
-        while(notStopped) {
-            if ((int) ((start - System.currentTimeMillis()) / 1000) == 1) {
+
+        while(cs.isTurnedOn()) {
+            int diff = ((int) ((System.currentTimeMillis() - start)));
+            if (diff>1000) {
                 setSeconds(getSeconds() + 1);
+                System.out.println("Current second: "+seconds);
                 start = System.currentTimeMillis();
             }
+            if (seconds>100) cs.setIsTurnedOff();
+
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        try{
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        notifyAll();
     }
 
 

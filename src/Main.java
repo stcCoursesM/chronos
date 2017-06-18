@@ -1,7 +1,3 @@
-import java.util.Date;
-
-import static java.lang.Thread.sleep;
-
 public class Main {
 
 
@@ -9,10 +5,11 @@ public class Main {
     public static void main(String[] args) {
 
 
+        CommonSwitch cs = new CommonSwitch();
 
-        Thread thr1 = new Thread(new Chronos());
-        Thread thr2 = new Thread(new Chrono5());
-        Thread thr3 = new Thread(new Chrono7());
+        Thread thr1 = new Thread(new Chronos(cs));
+        Thread thr2 = new Thread(new Chrono5(cs));
+        Thread thr3 = new Thread(new Chrono7(cs));
         thr1.start();
         thr2.start();
         thr3.start();
